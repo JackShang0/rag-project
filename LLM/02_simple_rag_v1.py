@@ -74,7 +74,7 @@ if __name__ == '__main__':
     # print(generation(augmented("飞机是什么",retrieval("飞机是什么"))))
 
     query = "请帮我介绍埃及"
-    query = "请帮我介绍美国"
+    query = "能飞多久"
 
 
     # 不使用RAG
