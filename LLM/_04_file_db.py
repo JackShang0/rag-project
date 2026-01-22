@@ -20,16 +20,13 @@ collection = client.get_or_create_collection(
         "创建时间": str(datetime.now()),
         # 其中带：的都是比较特殊的
         "hnsw:space": "cosine"  # 使用那种相似度搜索方法    cosine：余弦相似度
-        """
-            cosine：余弦相似度 
-        """
     }
 )
 
 
 def txt_2db():
     # 1 加载所有的文件
-    path_list = list(Path(r"E:\shangdj\python\rag\rag-project\LLM\konwledge").glob("*.txt"))
+    path_list = list(Path(r"/LLM/knowledge").glob("*.txt"))
     text_list = []  # 文本内容
 
     for path in path_list:
@@ -64,6 +61,13 @@ if __name__ == '__main__':
     data = collection.query(query_embedding.tolist(), n_results=5)
     print(data)
 
+    # 这才是实际需要的内容
+    text_list = data['documents'][0]
+    print(text_list)
+
+    for t in text_list:
+        print(t)
+
     # 输出的内容格式如下：其中在chromadb中，使用余选计算相似度，distances字段的值=1-相似度
 
     # {'ids': [['doc_0', 'doc_1']],
@@ -76,3 +80,22 @@ if __name__ == '__main__':
     #  'data': None,
     #  'metadatas': [[{'id': 0}, {'id': 1}]],
     #  'distances': [[0.6723231673240662, 0.6820040941238403]]}
+
+# -----------------------------------------------------查看向量数据库信息-----------------------------------------
+    # 查看数据库基本信息
+    print(f"数据库名称: {collection.name}")
+    print(f"文档数量: {collection.count()}")
+    # 查看数据库中的所有数据
+    all_data = collection.get()
+    print("\n=== 数据库中的所有数据 ===")
+
+    # 按格式打印每个文档
+    for i, (doc_id, document, metadata) in enumerate(zip(
+            all_data['ids'],
+            all_data['documents'],
+            all_data['metadatas']
+    )):
+        print(f"\n文档 {i + 1} (ID: {doc_id}):")
+        print(f"元数据: {metadata}")
+        print(f"内容摘要: {document[:200]}...")  # 只显示前200个字符
+        print("-" * 50)

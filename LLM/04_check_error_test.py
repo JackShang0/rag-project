@@ -41,7 +41,7 @@ def txt_2db():
     print("\n=== 开始处理文本数据 ===")
 
     # 1. 检查 knowledge 目录
-    knowledge_path = Path(r"E:\shangdj\python\rag\rag-project\LLM\konwledge")
+    knowledge_path = Path(r"E:\shangdj\python\rag\rag-project\LLM\knowledge")
     print(f"检查目录: {knowledge_path.absolute()}")
 
     if not knowledge_path.exists():
